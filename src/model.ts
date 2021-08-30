@@ -9,6 +9,13 @@ export const ModelResource = CustomResource("model", {
 });
 
 /**
+ * The maximum custom model data is the maximum integer a float can store
+ * without losing precision because the predicate value is internally converted
+ * to a float
+ */
+export const MAX_CUSTOM_MODEL_DATA = 16777216;
+
+/**
  * @see https://minecraft.fandom.com/wiki/Model
  */
 export type ModelData = {
@@ -93,7 +100,7 @@ export namespace ModelData {
 	}
 	export type Override = {
 		predicate: {
-			[p in OverridePredicate]: string;
+			[p in OverridePredicate]: number;
 		};
 		model: string;
 	}
