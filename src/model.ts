@@ -62,9 +62,7 @@ export namespace ModelData {
 		Ground = "ground",
 		Fixed = "fixed",
 	}
-	export type Display = {
-		[position in DisplayPosition]?: DisplayTransform;
-	}
+	export type Display = Partial<Record<DisplayPosition, DisplayTransform>>;
 	export type DisplayTransform = {
 		rotation?: [number, number, number];
 		translation?: [number, number, number];
@@ -99,9 +97,7 @@ export namespace ModelData {
 		tintindex?: number;
 	}
 	export type Override = {
-		predicate: {
-			[p in OverridePredicate]: number;
-		};
+		predicate: Partial<Record<OverridePredicate, number>>;
 		model: string;
 	}
 	/** @see https://minecraft.fandom.com/wiki/Model */
