@@ -12,12 +12,13 @@
     "sandstone"
   ],
   "author": "Colin Tim Barndt",
-  "license": "GPL-3.0-or-later",
+  "license": "MIT",
   "dependencies": {
+    "adm-zip": "^0.5.5",
     "sandstone": "^0.14.0-alpha.1"
   },
   "devDependencies": {
     "@types/node": "^16.7.6",
-    "typescript": "^4.4.2"
+    "typescript": "^4.3.5"
   }
 }

@@ -5,13 +5,13 @@ export const saveResourcepackResource =
 	(assetPath: string): CustomResourceSave =>
 		({ saveType, packName, saveLocation }): string => {
 			if (saveType === "root") {
-				return path.join(saveLocation!, "..", "resourcepacks", packName, assetPath);
+				return path.join(saveLocation!, "..", "resourcepacks", packName, "assets", assetPath);
 			}
 			if (saveType === "world") {
-				return path.join(saveLocation!, "..", "..", "resourcepacks", packName, assetPath);
+				return path.join(saveLocation!, "..", "..", "resourcepacks", packName, "assets", assetPath);
 			}
 			if (saveType === "custom-path") {
-				return path.join(saveLocation!, "../", packName + "-resources", assetPath);
+				return path.join(saveLocation!, "../", packName + "-resources", "assets", assetPath);
 			}
 			throw new Error("Invalid saveType: " + saveType);
 		}
