@@ -1,5 +1,6 @@
 import { CustomResource } from "sandstone";
 import { BlockAxisName, BlockFace, BlockFaceName } from "./block";
+import { Vector, Vector3 } from "./math";
 import { saveResourcepackResource } from "./resource";
 
 export const ModelResource = CustomResource("model", {
@@ -248,7 +249,7 @@ export class Model {
 			m.elements = data.elements.map(Model.Element.fromJSON);
 		if (data.overrides)
 			m.overrides = data.overrides;
-		
+
 		return m;
 	}
 }
@@ -267,8 +268,8 @@ export namespace Model {
 		 * Creates a new cube without any faces
 		 */
 		public constructor(
-			public from: [number, number, number],
-			public to: [number, number, number],
+			public from: Vector3,
+			public to: Vector3,
 		) { }
 
 		public hasFace(face: BlockFace): boolean {
@@ -320,8 +321,8 @@ export namespace Model {
 		 */
 		public toJSON(): ModelData.Element {
 			let obj: ModelData.Element = {
-				from: this.from,
-				to: this.to,
+				from: this.from.components,
+				to: this.to.components,
 			};
 
 			if (Object.keys(this.faces).length > 0)
@@ -338,7 +339,10 @@ export namespace Model {
 		 * Parses the Minecraft model JSON
 		 */
 		public static fromJSON(data: ModelData.Element): Element {
-			let e = new Element(data.from, data.to);
+			let e = new Element(
+				new Vector(data.from),
+				new Vector(data.to)
+			);
 
 			if (data.faces) e.faces = data.faces;
 			if (data.rotation) e.rotation = data.rotation;
@@ -352,11 +356,11 @@ export namespace Model {
 	 * Helper class for modifying the model transformation when displayed
 	 */
 	export class DisplayTransform {
-		public rotation: [number, number, number] = [0, 0, 0];
-		public translation: [number, number, number] = [0, 0, 0];
-		public scale: [number, number, number] = [0, 0, 0];
+		public rotation: Vector3 = Vector3.ZERO;
+		public translation: Vector3 = Vector3.ZERO;
+		public scale: Vector3 = Vector3.ONE;
 
-		public constructor() {}
+		public constructor() { }
 
 		/**
 		 * Returns a shallow copy of this transform
@@ -371,20 +375,20 @@ export namespace Model {
 
 		public toJSON(): ModelData.DisplayTransform {
 			let obj: ModelData.DisplayTransform = {};
-	
-			if (this.rotation.every(n => n === 0)) obj.rotation = this.rotation;
-			if (this.translation.every(n => n === 0)) obj.translation = this.translation;
-			if (this.scale.every(n => n === 1)) obj.scale = this.scale;
-	
+
+			if (this.rotation.every(n => n === 0)) obj.rotation = this.rotation.components;
+			if (this.translation.every(n => n === 0)) obj.translation = this.translation.components;
+			if (this.scale.every(n => n === 1)) obj.scale = this.scale.components;
+
 			return obj;
 		}
-	
+
 		public static fromJSON(data: ModelData.DisplayTransform): DisplayTransform {
 			let t = new DisplayTransform();
 
-			if (data.rotation) t.rotation = data.rotation;
-			if (data.translation) t.translation = data.translation;
-			if (data.scale) t.scale = data.scale;
+			if (data.rotation) t.rotation = new Vector(data.rotation);
+			if (data.translation) t.translation = new Vector(data.translation);
+			if (data.scale) t.scale = new Vector(data.scale);
 
 			return t;
 		}

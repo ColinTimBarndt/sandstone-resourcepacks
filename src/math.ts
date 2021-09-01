@@ -81,16 +81,16 @@ type CVector<T extends readonly number[]> = Vector<CArray<T>>;
 export type Vector4 = Vector<ArrayOfLength<4, number>>;
 export type Vector3 = Vector<ArrayOfLength<3, number>>;
 export type Vector2 = Vector<ArrayOfLength<2, number>>;
-export class Vector<T extends readonly number[]> {
+export class Vector<T extends number[]> {
 	public readonly dimensions: T["length"];
-	private readonly _values: T;
+	private readonly _values: Readonly<T>;
 
-	public constructor(array: T);
+	public constructor(array: Readonly<T>);
 	public constructor(...vector: T);
 	public constructor(vector: Vector<T>);
 	public constructor(...args: T | [T] | [Vector<T>]) {
 		if (typeof args[0] === "number") {
-			this._values = args as T;
+			this._values = args.slice() as T;
 		} else {
 			const arg = args[0] as T | Vector<T>;
 			if (arg instanceof Vector) {
@@ -126,6 +126,9 @@ export class Vector<T extends readonly number[]> {
 
 	public [Symbol.iterator]() {
 		return this._values[Symbol.iterator]();
+	}
+	public every(predicate: (value: T[IndexOf<T>], index: IndexOf<T>) => boolean): boolean {
+		return this._values.every(predicate as any);
 	}
 
 	/**
@@ -301,4 +304,19 @@ export class Vector<T extends readonly number[]> {
 			this._values.map(n => `^${n}` as const) as PrefixStrings<"^", T>
 		);
 	}
+}
+
+export namespace Vector2 {
+	export const ZERO: Vector2 = new Vector(0, 0);
+	export const ONE: Vector2 = new Vector(1, 1);
+}
+
+export namespace Vector3 {
+	export const ZERO: Vector3 = new Vector(0, 0, 0);
+	export const ONE: Vector3 = new Vector(1, 1, 1);
+}
+
+export namespace Vector4 {
+	export const ZERO: Vector4 = new Vector(0, 0, 0, 0);
+	export const ONE: Vector4 = new Vector(1, 1, 1, 1);
 }
