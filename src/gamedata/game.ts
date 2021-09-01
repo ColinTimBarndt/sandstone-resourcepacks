@@ -49,9 +49,9 @@ export class VersionManifest {
 		return this.versions.get(version) || null;
 	}
 
-	public async downloadClient(version: "1.17.1"): Promise<string>;
-	public async downloadClient(version: string): Promise<string>;
-	public async downloadClient(version: string): Promise<string> {
+	public async downloadData(version: "1.17.1"): Promise<string>;
+	public async downloadData(version: string): Promise<string>;
+	public async downloadData(version: string): Promise<string> {
 		if (!this.versions.has(version))
 			throw new Error("Version does not exist: " + version);
 		const { url } = this.versions.get(version)!;
@@ -60,23 +60,8 @@ export class VersionManifest {
 			size: number;
 			url: string;
 		};
-		const data: {
-			downloads: {
-				client: DownloadEntry;
-				server: DownloadEntry;
-				client_mappings: DownloadEntry;
-				server_mappings: DownloadEntry;
-				id: string;
-			}
-		} = JSON.parse(
-			(
-				await http.get(
-					url,
-					path.join("versions", version, "version.json"))
-			).toString("utf8")
-		);
-		const JAR_FILE = path.join("versions", version, "client.jar");
-		return await http.download(data.downloads.client.url, JAR_FILE);
+		const DATA_ZIP = path.join("versions", version, "data.zip");
+		return await http.download(`https://github.com/InventivetalentDev/minecraft-assets/archive/refs/heads/${version}.zip`, DATA_ZIP);
 	}
 }
 

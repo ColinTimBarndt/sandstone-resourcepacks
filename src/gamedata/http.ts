@@ -83,7 +83,7 @@ export async function download(href: string, cacheFilename: string): Promise<str
 					await tryAccessFromCache(href, cacheFilename);
 					resolve(file);
 				});
-			} else reject(new Error(`Server answered with ${res.statusCode} (${res.statusMessage})`));
+			} else reject(new Error(`Server responded with ${res.statusCode} (${res.statusMessage})`));
 		});
 	});
 }
