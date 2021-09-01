@@ -19,6 +19,7 @@ type _IndexOf<A extends unknown[] | readonly unknown[], _S extends number[] = []
  * An array of type T with length L.
  * This is a short way of writing homogenous array types with a fixed length
  * and is at the same time more readable.
+ * @example
  * ```ts
  * type Vec4 = [number, number, number, number];
  * type Vec4 = ArrayOfLength<4, number>;
