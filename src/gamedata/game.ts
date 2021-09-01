@@ -1,6 +1,11 @@
 import * as http from "./http";
 import path = require("node:path");
 
+let manifest: VersionManifest | null = null;
+
+/**
+ * Singleton class for the version manifest of Minecraft
+ */
 export class VersionManifest {
 	private readonly versions: Map<string, VersionManifest.VersionInfo> = new Map();
 	public readonly latestRelease: string;
@@ -32,6 +37,7 @@ export class VersionManifest {
 	}
 
 	public static async load(): Promise<VersionManifest> {
+		if (manifest) return manifest;
 		const data = JSON.parse(
 			(
 				await http.get(
@@ -40,7 +46,7 @@ export class VersionManifest {
 				)
 			).toString("utf8")
 		);
-		return new VersionManifest(data);
+		return manifest = new VersionManifest(data);
 	}
 
 	public getVersion(version: "1.17.1"): VersionManifest.VersionInfo;
@@ -54,12 +60,6 @@ export class VersionManifest {
 	public async downloadData(version: string): Promise<string> {
 		if (!this.versions.has(version))
 			throw new Error("Version does not exist: " + version);
-		const { url } = this.versions.get(version)!;
-		type DownloadEntry = {
-			sha1: string;
-			size: number;
-			url: string;
-		};
 		const DATA_ZIP = path.join("versions", version, "data.zip");
 		return await http.download(`https://github.com/InventivetalentDev/minecraft-assets/archive/refs/heads/${version}.zip`, DATA_ZIP);
 	}
