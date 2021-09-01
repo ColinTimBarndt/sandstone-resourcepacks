@@ -54,7 +54,7 @@ export async function download(href: string, cacheFilename: string): Promise<str
 		}
 	};
 	if (cacheFilename in CACHE) {
-		const cached = CACHE[cacheFilename];
+		const cached = CACHE[cacheFilename]!;
 		if (Date.now() - new Date(cached.date).getTime() >= 24 * 60 * 60 * 1000) {
 			await tryAccessFromCache(href, cacheFilename);
 			return file;
