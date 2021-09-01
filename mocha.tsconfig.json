@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"target": "ES2019",
+		"noUncheckedIndexedAccess": true,
+		"sourceMap": true,
+		"rootDir": ".",
+		"strict": true,
+		"resolveJsonModule": true,
+		"noEmit": true
+	},
+	"include": [
+		"test/**/*",
+		"src/**/*"
+	]
+}

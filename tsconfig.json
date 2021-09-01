@@ -13,5 +13,8 @@
 		// Temporary fix for incorrect definition files in the sandstone module
 		"skipLibCheck": true,
 		"resolveJsonModule": true
-	}
+	},
+	"include": [
+		"src/**/*"
+	]
 }

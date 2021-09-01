@@ -21,6 +21,12 @@ export class BlockFace<
 	public static readonly Up = new BlockFace("up" as const, 4, [0, 1, 0] as const, "Down" as const);
 	public static readonly Down = new BlockFace("down" as const, 5, [0, -1, 0] as const, "Up" as const);
 
+	public static fromName(name: "north"): (typeof BlockFace)["North"];
+	public static fromName(name: "east"): (typeof BlockFace)["East"];
+	public static fromName(name: "south"): (typeof BlockFace)["South"];
+	public static fromName(name: "west"): (typeof BlockFace)["West"];
+	public static fromName(name: "up"): (typeof BlockFace)["Up"];
+	public static fromName(name: "down"): (typeof BlockFace)["Down"];
 	public static fromName(name: BlockFaceName): BlockFace;
 	public static fromName(name: string): BlockFace | null;
 	public static fromName(name: string): BlockFace | null {
