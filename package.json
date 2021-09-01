@@ -15,6 +15,7 @@
   "author": "Colin Tim Barndt",
   "license": "MIT",
   "dependencies": {
+    "@types/adm-zip": "^0.4.34",
     "adm-zip": "^0.5.5",
     "sandstone": "^0.14.0-alpha.3"
   },
