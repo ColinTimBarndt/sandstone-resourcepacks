@@ -3,6 +3,13 @@
   "version": "1.0.0",
   "description": "Generate resourcepacks using Sandstone",
   "main": "dist/index.js",
+  "files": [
+    "./src",
+    "./generate",
+    "./LICENSE",
+    "./tsconfig.json",
+    "./generate.tsconfig.json"
+  ],
   "scripts": {
     "test": "mocha --require ts-node/register ./test/*.spec.ts ./test/**/*.spec.ts",
     "generate": "ts-node --project generate.tsconfig.json ./generate/index.ts",

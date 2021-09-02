@@ -6,7 +6,7 @@ import { ModelData } from "../../src/model";
 describe("Resource Loader", function() {
 	describe("Network", function() {
 		// Can't test speed here because depends on the individual network speed.
-		this.timeout("5m");
+		this.timeout("15m");
 		this.slow("5m");
 		it("Should load vanilla Minecraft resources", async () => {
 			const loader = new ResourceLoader({
