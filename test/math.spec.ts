@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { VectorClass } from "sandstone";
-import { Vector, Vector3 } from "../src/math";
+import { vec3, Vector, Vector3 } from "../src/math";
 
 describe("Math", () => {
 	describe("Vector", () => {
@@ -18,8 +18,8 @@ describe("Math", () => {
 			const loc: VectorClass<["^1", "^2", "^3"]> = arr.toCoordsLoc();
 		});
 		it("Can be perfomed vector operations on", () => {
-			const v1 = new Vector(60, 0, 120);
-			const v2 = new Vector(0, 30, 0);
+			const v1 = vec3(60, 0, 120);
+			const v2 = vec3(0, 30, 0);
 			expect(v1.dot(v2)).to.equal(0);
 			expect(v1.length).to.equal(Math.sqrt(60*60 + 120*120));
 			expect(v2.length).to.equal(30);

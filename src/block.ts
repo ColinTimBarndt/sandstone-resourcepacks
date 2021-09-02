@@ -40,8 +40,8 @@ export class BlockFace<
 			default: return null;
 		}
 	}
-	public static get [Symbol.iterator]() {
-		return BLOCK_FACES[Symbol.iterator];
+	public static [Symbol.iterator]() {
+		return BLOCK_FACES[Symbol.iterator]();
 	}
 	public static get filter() {
 		return BLOCK_FACES.filter;

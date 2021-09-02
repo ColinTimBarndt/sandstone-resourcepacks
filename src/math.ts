@@ -85,9 +85,13 @@ export class Vector<T extends number[]> {
 	public readonly dimensions: T["length"];
 	private readonly _values: Readonly<T>;
 
-	public constructor(array: Readonly<T>);
+	/**
+	 * This is a strict vector constructor. In some cases it is useful because
+	 * Typescript knows the exact inner values, though this may lead to some type
+	 * incompatibility issues. Prefer to use the dedicated `vec2/3/4/N` functions.
+	 */
+	public constructor(vector: Readonly<T> | Vector<T>);
 	public constructor(...vector: T);
-	public constructor(vector: Vector<T>);
 	public constructor(...args: T | [T] | [Vector<T>]) {
 		if (typeof args[0] === "number") {
 			this._values = args.slice() as T;
@@ -134,6 +138,8 @@ export class Vector<T extends number[]> {
 	/**
 	 * Dot product
 	 */
+	public dot(...vector: CArray<T>): number;
+	public dot(...vector: [CVector<T>]): number;
 	public dot(...args: CArray<T> | [CVector<T>]): number {
 		// @ts-ignore TS is broken here
 		if (typeof args[0] === "number") {
@@ -311,12 +317,48 @@ export namespace Vector2 {
 	export const ONE: Vector2 = new Vector(1, 1);
 }
 
+export function vec2(x: number, y: number): Vector2;
+export function vec2(array: ArrayOfLength<2, number>): Vector2;
+export function vec2(vector: Vector2): Vector2;
+export function vec2(x: number | ArrayOfLength<2, number> | Vector2, y?: number): Vector2 {
+	if (typeof x === "number")
+		return new Vector(x, y!);
+	return new Vector(x);
+}
+
 export namespace Vector3 {
 	export const ZERO: Vector3 = new Vector(0, 0, 0);
 	export const ONE: Vector3 = new Vector(1, 1, 1);
 }
 
+export function vec3(x: number, y: number, z: number): Vector3;
+export function vec3(array: ArrayOfLength<3, number>): Vector3;
+export function vec3(vector: Vector3): Vector3;
+export function vec3(x: number | ArrayOfLength<3, number> | Vector3, y?: number, z?: number): Vector3 {
+	if (typeof x === "number")
+		return new Vector(x, y!, z!);
+	return new Vector(x);
+}
+
 export namespace Vector4 {
 	export const ZERO: Vector4 = new Vector(0, 0, 0, 0);
 	export const ONE: Vector4 = new Vector(1, 1, 1, 1);
+}
+
+export function vec4(x: number, y: number, z: number, w: number): Vector4;
+export function vec4(array: ArrayOfLength<4, number>): Vector4;
+export function vec4(vector: Vector4): Vector4;
+export function vec4(x: number | ArrayOfLength<4, number> | Vector4, y?: number, z?: number, w?: number): Vector4 {
+	if (typeof x === "number")
+		return new Vector(x, y!, z!, w!);
+	return new Vector(x);
+}
+
+export function vecN<N extends number>(...comps: ArrayOfLength<N, number>): Vector<ArrayOfLength<N, number>>;
+export function vecN<N extends number>(array: ArrayOfLength<N, number>): Vector<ArrayOfLength<N, number>>;
+export function vecN<N extends number>(vector: ArrayOfLength<N, number>): Vector<ArrayOfLength<N, number>>;
+export function vecN<N extends number>(...args: ArrayOfLength<N, number> | [ArrayOfLength<N, number> | Vector<ArrayOfLength<N, number>>]): Vector<ArrayOfLength<N, number>> {
+	if (typeof (args as unknown[])[0] === "number")
+		return new Vector(args as ArrayOfLength<N, number>);
+	return new Vector((args as unknown[])[0] as ArrayOfLength<N, number> | Vector<ArrayOfLength<N, number>>);
 }
