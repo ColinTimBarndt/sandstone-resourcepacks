@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import path = require("node:path");
 import { ResourceLoader } from "../../src/gamedata/index";
+import { ModelData } from "../../src/model";
 
 describe("Resource Loader", function() {
 	describe("Network", function() {
@@ -13,11 +14,8 @@ describe("Resource Loader", function() {
 				loadPacks: [],
 				loadVanilla: "1.17.1"
 			});
-			const modelRaw = await loader.readResourceFile(path.join(
-				"assets", "minecraft", "models", "block", "cube.json"
-			));
-			expect(modelRaw).not.to.equal(null, "Cube block model must be loadable");
-			const modelData = JSON.parse(modelRaw!.toString("utf8"));
+			const model = await ModelData.load(loader, "minecraft:block/cube");
+			expect(model).not.to.equal(null, "Cube block model must be loadable");
 		});
 	});
 

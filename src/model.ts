@@ -1,7 +1,8 @@
 import { CustomResource } from "sandstone";
 import { BlockAxisName, BlockFace, BlockFaceName } from "./block";
+import { ResourceLoader } from "./gamedata";
 import { Vector, Vector3 } from "./math";
-import { saveResourcepackResource } from "./resource";
+import { getResourcePath, parseNamespacedId, saveResourcepackResource } from "./resource";
 
 export const ModelResource = CustomResource("model", {
 	dataType: "json",
@@ -44,6 +45,13 @@ export namespace ModelData {
 		return {
 			parent: "minecraft:item/generated"
 		};
+	}
+	export async function load(loader: ResourceLoader, id: string): Promise<ModelData | null> {
+		const parsedId = parseNamespacedId(id);
+		const rPath = getResourcePath(parsedId, "models", "json");
+		const data = await loader.readResourceFile(rPath);
+		if (data === null) return null;
+		else return JSON.parse(data.toString("utf8"));
 	}
 
 	export type Textures =

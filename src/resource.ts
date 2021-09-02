@@ -16,6 +16,32 @@ export const saveResourcepackResource =
 			throw new Error("Invalid saveType: " + saveType);
 		}
 
+/**
+ * @see https://minecraft.fandom.com/wiki/Resource_location#Java_Edition
+ */
+export const NAMESPACED_ID_REGEX = /^(?:(?<namespace>[a-z0-9_.\-]+):)?(?<path>[^:/]+(?:\/[^:/]+)*)$/;
+
+export type NamespacedIdParsed = {
+	namespace: string;
+	path: string[];
+};
+
+export const parseNamespacedId = (
+	nsid: string,
+	defaultNamespace: string = "minecraft"
+): NamespacedIdParsed => {
+	const match = NAMESPACED_ID_REGEX.exec(nsid);
+	if (!match) throw new Error(`Invalid namespaced id: '${nsid}'`);
+	return {
+		namespace: match.groups!.namespace || defaultNamespace,
+		path: match.groups!.path!.split("/"),
+	};
+}
+
+export const getResourcePath = (id: NamespacedIdParsed, dir: string, ext: string) => {
+	return path.join("assets", id.namespace, dir, ...id.path) + (ext ? `.${ext}` : "");
+}
+
 export const FontResource = CustomResource("font", {
 	dataType: "json",
 	extension: "json",
