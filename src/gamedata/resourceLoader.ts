@@ -5,7 +5,7 @@ import path = require("node:path");
 
 export class ResourceLoader {
 	private readonly _load: Promise<void>;
-	private vanilla: Zip | null = null;
+	private vanilla: string | null = null;
 	private readonly includePacks: (string | Zip)[] = [];
 	private readonly loadPacks: (string | Zip)[] = [];
 	private readonly cache: {
@@ -25,8 +25,8 @@ export class ResourceLoader {
 				(async () => {
 					if (config.loadVanilla) {
 						const vman = await VersionManifest.load();
-						const filename = await vman.downloadData(config.loadVanilla);
-						this.vanilla = new Zip(filename);
+						const dirname = await vman.downloadData(config.loadVanilla);
+						this.vanilla = dirname;
 					}
 				})(),
 				Promise.all((["includePacks", "loadPacks"] as const).map(async prop => {

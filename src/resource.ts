@@ -2,16 +2,16 @@ import * as path from "node:path";
 import { CustomResource, CustomResourceSave } from "sandstone";
 
 export const saveResourcepackResource =
-	(assetPath: string): CustomResourceSave =>
+	(...assetPath: string[]): CustomResourceSave =>
 		({ saveType, packName, saveLocation }): string => {
 			if (saveType === "root") {
-				return path.join(saveLocation!, "..", "resourcepacks", packName, "assets", assetPath);
+				return path.join(saveLocation!, "..", "resourcepacks", packName, ...assetPath);
 			}
 			if (saveType === "world") {
-				return path.join(saveLocation!, "..", "..", "resourcepacks", packName, "assets", assetPath);
+				return path.join(saveLocation!, "..", "..", "resourcepacks", packName, ...assetPath);
 			}
 			if (saveType === "custom-path") {
-				return path.join(saveLocation!, "../", packName + "-resources", "assets", assetPath);
+				return path.join(saveLocation!, "../", packName + "-resources", ...assetPath);
 			}
 			throw new Error("Invalid saveType: " + saveType);
 		}
@@ -19,11 +19,12 @@ export const saveResourcepackResource =
 export const FontResource = CustomResource("font", {
 	dataType: "json",
 	extension: "json",
-	save: saveResourcepackResource("font")
+	save: saveResourcepackResource("assets", "font")
 });
 
-export const TextureResource = CustomResource("texture", {
-	dataType: "raw",
-	extension: "png",
-	save: saveResourcepackResource("textures")
-});
+// https://github.com/TheMrZZ/sandstone/issues/100
+// export const TextureResource = CustomResource("texture", {
+// 	dataType: "binary",
+// 	extension: "png",
+// 	save: saveResourcepackResource("assets", "textures")
+// });

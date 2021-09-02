@@ -4,7 +4,7 @@
   "description": "Generate resourcepacks using Sandstone",
   "main": "dist/index.js",
   "scripts": {
-    "test": "mocha --require ts-node/register ./test/*.spec.ts",
+    "test": "mocha --require ts-node/register ./test/*.spec.ts ./test/**/*.spec.ts",
     "prepare": "tsc",
     "start": "node dist/index.js"
   },
@@ -15,11 +15,11 @@
   "author": "Colin Tim Barndt",
   "license": "MIT",
   "dependencies": {
-    "@types/adm-zip": "^0.4.34",
     "adm-zip": "^0.5.5",
     "sandstone": "^0.14.0-alpha.4"
   },
   "devDependencies": {
+    "@types/adm-zip": "^0.4.34",
     "@types/chai": "^4.2.21",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.7.6",

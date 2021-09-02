@@ -6,7 +6,7 @@ import { saveResourcepackResource } from "./resource";
 export const ModelResource = CustomResource("model", {
 	dataType: "json",
 	extension: "json",
-	save: saveResourcepackResource("models")
+	save: saveResourcepackResource("assets", "models")
 });
 
 /**

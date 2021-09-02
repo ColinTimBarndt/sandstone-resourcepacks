@@ -4,7 +4,7 @@ import * as fssync from "node:fs";
 import path = require("node:path");
 import { URL } from "node:url";
 
-export const CACHE_DIR = path.join(__dirname, "..", "cache");
+export const CACHE_DIR = path.join(__dirname, ".." , "..", "cache");
 const CACHE_MANIFEST = path.join(CACHE_DIR, "cache_manifest.json");
 
 let CACHE: {

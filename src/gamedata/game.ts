@@ -1,5 +1,7 @@
 import * as http from "./http";
 import path = require("node:path");
+import Zip = require("adm-zip");
+import fs = require("node:fs/promises");
 
 let manifest: VersionManifest | null = null;
 
@@ -61,7 +63,23 @@ export class VersionManifest {
 		if (!this.versions.has(version))
 			throw new Error("Version does not exist: " + version);
 		const DATA_ZIP = path.join("versions", version, "data.zip");
-		return await http.download(`https://github.com/InventivetalentDev/minecraft-assets/archive/refs/heads/${version}.zip`, DATA_ZIP);
+		const zipFile = await http.download(`https://codeload.github.com/InventivetalentDev/minecraft-assets/zip/refs/heads/${version}`, DATA_ZIP);
+		const zip = new Zip(zipFile);
+		const zipDir = path.dirname(zipFile);
+		const resourcesDir = path.join(zipDir, `minecraft-assets-${version}`);
+		try {
+			const stat = await fs.stat(resourcesDir);
+			if (!stat.isDirectory()) await fs.unlink(resourcesDir);
+		} catch(err: any) {
+			if (err.code !== "ENOENT") throw err;
+			await new Promise<void>((resolve, reject) => {
+				zip.extractAllToAsync(path.join(zipDir), false, (err) => {
+					if (err) reject(err);
+					else resolve();
+				});
+			});
+		}
+		return resourcesDir;
 	}
 }
 
