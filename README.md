@@ -2,7 +2,8 @@
 
 # Sandstone Resourcepacks
 
-![GitHub](https://img.shields.io/github/license/ColinTimBarndt/sandstone-resourcepacks)
+![License](https://img.shields.io/github/license/ColinTimBarndt/sandstone-resourcepacks)
+![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/ColinTimBarndt/sandstone-resourcepacks/Run%20Tests/master?label=tests)
 
 Sandstone Resourcepacks is an unofficial library for [Sandstone]. It allows
 generation, modification and merging of Minecraft resource packs.
