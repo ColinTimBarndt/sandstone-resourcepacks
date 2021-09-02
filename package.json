@@ -17,7 +17,7 @@
   "dependencies": {
     "@types/adm-zip": "^0.4.34",
     "adm-zip": "^0.5.5",
-    "sandstone": "^0.14.0-alpha.3"
+    "sandstone": "^0.14.0-alpha.4"
   },
   "devDependencies": {
     "@types/mocha": "^9.0.0",
