@@ -42,12 +42,6 @@ export const getResourcePath = (id: NamespacedIdParsed, dir: string, ext: string
 	return path.join("assets", id.namespace, dir, ...id.path) + (ext ? `.${ext}` : "");
 }
 
-export const FontResource = CustomResource("font", {
-	dataType: "json",
-	extension: "json",
-	save: saveResourcepackResource("assets", "font")
-});
-
 // https://github.com/TheMrZZ/sandstone/issues/100
 // export const TextureResource = CustomResource("texture", {
 // 	dataType: "binary",
