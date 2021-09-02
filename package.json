@@ -5,7 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "mocha --require ts-node/register ./test/*.spec.ts ./test/**/*.spec.ts",
-    "prepare": "tsc",
+    "generate": "ts-node --project generate.tsconfig.json ./generate/index.ts",
+    "build": "tsc",
+    "prepare": "npm run generate && npm run build",
     "start": "node dist/index.js"
   },
   "keywords": [

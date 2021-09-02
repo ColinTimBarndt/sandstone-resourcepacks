@@ -17,7 +17,9 @@ This library is work in progress and requires Sandstone alpha.
 - Models
   - [x] Create
   - [x] Edit
-  - [ ] Load
+  - [x] Load
+- Translations
+  - [x] Type support
 - Fonts
   - [ ] Work in progress
 - Textures

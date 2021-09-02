@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"target": "ES2019",
+		"noEmit": true,
+		"noUncheckedIndexedAccess": true,
+		"rootDir": ".",
+		"strict": true,
+		// Temporary fix for incorrect definition files in the sandstone module
+		"skipLibCheck": true,
+		"resolveJsonModule": true
+	},
+	"include": [
+		"src/**/*",
+		"generate/**/*"
+	]
+}

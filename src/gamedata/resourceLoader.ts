@@ -30,7 +30,7 @@ export class ResourceLoader {
 					}
 				})(),
 				Promise.all((["includePacks", "loadPacks"] as const).map(async prop => {
-					this[prop].push(...await Promise.all(config[prop].map(
+					this[prop].push(...await (prop in config ? Promise.all(config[prop]!.map(
 						async path => {
 							const stat = await fs.stat(path, { throwIfNoEntry: true });
 							if (stat.isFile()) {
@@ -39,7 +39,7 @@ export class ResourceLoader {
 								return path;
 							}
 						}
-					)));
+					)) : Promise.resolve([])));
 				})),
 			]);
 			this.loadOrder.push(...this.includePacks);
@@ -106,11 +106,11 @@ export namespace ResourceLoader {
 		 * loaded and are included in the generated resource pack when calling
 		 * method `finish()`.
 		 */
-		includePacks: string[];
+		includePacks?: string[];
 		/**
 		 * Resource pack folders or zipped files relative to the project folder
 		 */
-		loadPacks: string[];
+		loadPacks?: string[];
 	};
 }
 
