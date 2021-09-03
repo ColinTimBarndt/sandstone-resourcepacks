@@ -1,4 +1,5 @@
 import { BLOCKS, CustomResource } from "sandstone";
+import { LiteralUnion } from "sandstone/generalTypes";
 import { ResourceLoader } from "./gamedata";
 import { getResourcePath, parseNamespacedId, saveResourcepackResource } from "./resource";
 import { Blockstates } from "./generated/blockstates"
@@ -56,19 +57,12 @@ export namespace BlockstateData {
 	};
 }
 
-export function blockWithState<B extends BLOCKS>(
-	block: B,
-	state?: B extends keyof Blockstates ? Blockstates[B] : never
-): string;
-export function blockWithState(
-	block: string,
-	state?: {
+
+export function blockWithState<B extends keyof Blockstates>(
+	block: LiteralUnion<B>,
+	state?: (B extends keyof Blockstates ? Blockstates[B] : Blockstates[keyof Blockstates]) | {
 		[name: string]: string;
-	} | Blockstates[keyof Blockstates]
-): string;
-export function blockWithState(
-	block: string,
-	state?: { [name: string]: string; }
+	}
 ): string {
 	let id: string = block;
 	if (state) {
@@ -76,5 +70,3 @@ export function blockWithState(
   }
   return id;
 }
-
-blockWithState("minecraft:grass_block", {snowy: "true"});
