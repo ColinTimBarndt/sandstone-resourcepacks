@@ -2,6 +2,7 @@ import * as http from "./http";
 import path = require("node:path");
 import Zip = require("adm-zip");
 import fs = require("node:fs/promises");
+import type { BLOCKS } from "sandstone";
 
 let manifest: VersionManifest | null = null;
 
@@ -70,7 +71,7 @@ export class VersionManifest {
 		try {
 			const stat = await fs.stat(resourcesDir);
 			if (!stat.isDirectory()) await fs.unlink(resourcesDir);
-		} catch(err: any) {
+		} catch (err: any) {
 			if (err.code !== "ENOENT") throw err;
 			await new Promise<void>((resolve, reject) => {
 				zip.extractAllToAsync(path.join(zipDir), false, (err) => {
@@ -81,6 +82,27 @@ export class VersionManifest {
 		}
 		return resourcesDir;
 	}
+
+	public async downloadBlockData(version: "1.17.1"): Promise<{ properties: string; blocks: string; }>;
+	public async downloadBlockData(version: string): Promise<{ properties: string; blocks: string; }>;
+	public async downloadBlockData(version: string): Promise<{ properties: string; blocks: string; }> {
+		if (!this.versions.has(version))
+			throw new Error("Version does not exist: " + version);
+		const VER_PREFIX = version.replace(/\./g, "_");
+		const DL_DIR = path.join("versions", version);
+		const PROP_URL = `https://raw.githubusercontent.com/Articdive/ArticData/${version}/${VER_PREFIX}_block_properties.json`;
+		const BLOCKS_URL = `https://raw.githubusercontent.com/Articdive/ArticData/${version}/${VER_PREFIX}_blocks.json`;
+
+		const res = await Promise.all([
+			http.download(PROP_URL, path.join(DL_DIR, "block_properties.json")),
+			http.download(BLOCKS_URL, path.join(DL_DIR, "blocks.json"))
+		]);
+
+		return {
+			properties: res[0],
+			blocks: res[1],
+		};
+	}
 }
 
 export namespace VersionManifest {
@@ -89,4 +111,82 @@ export namespace VersionManifest {
 		type: "release" | "snapshot" | "old_alpha" | "old_beta";
 		url: string;
 	};
+}
+
+export type BlockData = {
+	[Block in BLOCKS]: {
+		id: number;
+		mojangName: string;
+		translationKey: string;
+		explosionResistance: number;
+		friction: number;
+		speedFactor: number;
+		jumpFactor: number;
+		dynamicShape: boolean;
+		defaultStateId: number;
+		lootTableLocation: string;
+		correspondingItem: string;
+		blockEntity: boolean;
+		gravity: boolean;
+		canRespawnIn: boolean;
+		/**
+		 * Block state property types
+		 */
+		properties: string[];
+		states: BlockData.BlockState[];
+	};
+};
+
+export namespace BlockData {
+	export type BlockState = {
+		properties: { [propertyName: string]: string | number };
+		stateId: number;
+		hardness: number;
+		lightEmission: number;
+		occludes: boolean;
+		useShapeForLightOcclusion: boolean;
+		propagatesSkylightDown: boolean;
+		lightBlock: number;
+		conditionallyFullyOpaque: boolean;
+		opacity: number;
+		pushReaction: PushReaction;
+		mapColorId: number;
+		blocksMotion: boolean;
+		flammable: boolean;
+		air: boolean;
+		liquid: boolean;
+		replaceable: boolean;
+		solid: boolean;
+		solidBlocking: boolean;
+		toolRequired: boolean;
+		largeCollisionShape: boolean;
+		collisionShapeFullBlock: boolean;
+		solidRender: boolean;
+		shape: string;
+		collisionShape: string;
+		interactionShape: string;
+		occlusionShape: string;
+		visualShape: string;
+		renderShape: RenderShape;
+	};
+
+	export const enum PushReaction {
+		Normal = "NORMAL",
+		Block = "BLOCK",
+		Destroy = "DESTROY",
+		PushOnly = "PUSH_ONLY",
+	}
+
+	export const enum RenderShape {
+		Invisible = "INVISIBLE",
+		Model = "MODEL",
+		EntityBlockAnimated = "ENTITYBLOCK_ANIMATED",
+	}
+
+	export type PropertiesData = {
+		[propType: string]: {
+			key: string;
+			values: (string | number | boolean)[];
+		}
+	}
 }

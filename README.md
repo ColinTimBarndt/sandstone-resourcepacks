@@ -14,16 +14,51 @@ generation, modification and merging of Minecraft resource packs.
 
 This library is work in progress and requires Sandstone alpha.
 
-- Models
-  - [x] Create
-  - [x] Edit
-  - [x] Load
-- Translations
-  - [x] Type support
-- Fonts
-  - [ ] Work in progress
-- Textures
-  - [ ] Work in progress
+- [x] Models
+- [x] Blockstates (TODO: utility class)
+- [x] Translations
+- [x] Fonts
+- [x] Translations
+- [ ] Textures
+- [ ] Sounds
+
+### Models
+
+#### Creating
+
+It is possible to create `ModelData` using either a utility function or by
+writing the data yourself as it is completely type-safe using Typescript.
+
+```ts
+// Generated model from the barrier texture
+const modelData = ModelData.generatedItem("minecraft:item/barrier");
+// Save it
+const resource = ModelResource.create("my_pack:barrier", modelData);
+```
+
+```ts
+// Block/Item model for oak planks
+const modelData: ModelData = {
+  parent: "minecraft:block/cube_all",
+  textures: {
+    all: "minecraft:oak_planks",
+    particle: "minecraft:oak_planks"
+  }
+};
+```
+
+#### Loading
+
+Assets can be loaded from vanilla minecraft and/or resourcepacks. Create a
+`ResourceLoader` specify your resourcepacks and minecraft version.
+
+```ts
+// Load the barrel model from the vanilla assets
+const loader = new ResourceLoader({
+  loadVanilla: "1.17.1"
+});
+const modelData = await ModelData.load(loader, "minecraft:block/barrel");
+```
 
 ### Strictly-typed vector math
 
