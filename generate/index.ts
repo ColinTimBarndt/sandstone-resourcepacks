@@ -1,5 +1,5 @@
-import path = require("node:path");
-import fs = require("node:fs/promises");
+import path = require("path");
+import fs = require("fs/promises");
 import generateTranslationKeys from "./translation_keys";
 import generateBlockstates from "./blockstates";
 

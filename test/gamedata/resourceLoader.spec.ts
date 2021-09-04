@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import path = require("node:path");
+import path = require("path");
 import { ResourceLoader } from "../../src/gamedata/index";
 import { ModelData } from "../../src/model";
 

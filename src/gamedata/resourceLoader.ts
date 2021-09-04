@@ -1,7 +1,7 @@
 import { VersionManifest } from "./game";
 import Zip = require("adm-zip");
-import fs = require("node:fs/promises");
-import path = require("node:path");
+import fs = require("fs/promises");
+import path = require("path");
 
 export class ResourceLoader {
 	private readonly _load: Promise<void>;

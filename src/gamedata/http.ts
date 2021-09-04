@@ -1,8 +1,8 @@
-import * as https from "node:https";
-import * as fs from "node:fs/promises";
-import * as fssync from "node:fs";
-import path = require("node:path");
-import { URL } from "node:url";
+import * as https from "https";
+import * as fs from "fs/promises";
+import * as fssync from "fs";
+import path = require("path");
+import { URL } from "url";
 
 export const CACHE_DIR = path.join(__dirname, ".." , "..", "cache");
 const CACHE_MANIFEST = path.join(CACHE_DIR, "cache_manifest.json");

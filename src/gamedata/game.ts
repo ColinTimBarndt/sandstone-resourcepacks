@@ -1,7 +1,7 @@
 import * as http from "./http";
-import path = require("node:path");
+import path = require("path");
 import Zip = require("adm-zip");
-import fs = require("node:fs/promises");
+import fs = require("fs/promises");
 import type { BLOCKS } from "sandstone";
 
 let manifest: VersionManifest | null = null;

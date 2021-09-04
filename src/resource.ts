@@ -1,4 +1,4 @@
-import * as path from "node:path";
+import * as path from "path";
 import { CustomResource, CustomResourceSave } from "sandstone";
 
 export const saveResourcepackResource =

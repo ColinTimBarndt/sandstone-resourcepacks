@@ -1,4 +1,4 @@
-import assert = require("node:assert");
+import assert = require("assert");
 import { VectorClass } from "sandstone";
 
 /**
