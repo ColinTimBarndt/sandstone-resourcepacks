@@ -1,21 +1,18 @@
 {
   "name": "sandstone-resourcepacks",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "Generate resourcepacks using Sandstone",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "./src",
-    "./generate",
-    "./LICENSE",
-    "./tsconfig.json",
-    "./generate.tsconfig.json"
+    "dist/",
+    "LICENSE"
   ],
   "scripts": {
     "test": "mocha --require ts-node/register ./test/*.spec.ts ./test/**/*.spec.ts",
     "generate": "ts-node --project generate.tsconfig.json ./generate/index.ts",
     "build": "tsc",
-    "prepare": "npm run generate && npm run build",
-    "start": "node dist/index.js"
+    "prepare": "npm run generate && npm run build"
   },
   "keywords": [
     "minecraft",
@@ -39,5 +36,6 @@
   },
   "engines": {
     "node": ">=14.0.0"
-  }
+  },
+  "repository": "github:ColinTimBarndt/sandstone-resourcepacks"
 }
